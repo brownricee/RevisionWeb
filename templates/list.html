@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    To-do list
+{% endblock %}
+
+{% block main %}
+    <form name="boxinput" action='/todolist' method="post">
+        <div class='flex-container2'>
+            <input type="text" autofocus class="form-control" id="todolistinput" name='listinput' autocomplete='off' placeholder="Enter your task here" aria-describedby="submit-button">
+            <button type="submit" class="btn btn-primary" id='submit-button'>Add</button>
+        </div>
+        <table class="table table-dark table-hover" id='interactive-table'>
+            <thead>
+                <tr>
+                    <th>Task(s)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                    <tr id='item'>
+                        <td> <button type="submit" class="btn-close btn-close-white common-button" aria-label="Close" id='delete-button'></button> {{ entry }} </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <input type="hidden" name="counter" id="counterInput">
+    </form>
+    <script>
+        // Used to fix on reload triggers a POST request, so this just saves the state upon refresh.
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        // This code was found online but essentially it makes all the buttons created responsive.
+        // Using this we can then add a function to delete items from the to-do list.
+        document.addEventListener("DOMContentLoaded", function(){
+            let count = 0;
+            const buttons = document.querySelectorAll('.common-button');
+            // forEach allows us to iterate over all the buttons that have been created so far
+            // and we can make the index to keep track of which specific button has been clicked to help us
+            // change the state of it once it has been clicked.
+            buttons.forEach((button, index) => {
+                button.addEventListener('click', function(){
+                    count = index + 1;
+                    document.getElementById("counterInput").value = count;
+                })
+            })
+        })
+    </script>
+{% endblock %}
