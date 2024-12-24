@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Flashcard Creator
+{% endblock %}
+
+{% block main %}
+    <form name="flashinput" action='/flashcards' method="post">
+        <div class='flex-container2'>
+            <input type="text" auotofocus class="form-control" id="flashcard-input" name='flashcardtitle' autocomplete='off' placeholder="Flashcard prompt" aria-describedby="submit-button">
+            <input type="text" class="form-control" id="flashcardbody" name='flashcardbody' autocomplete='off' placeholder="Flashcard answer" aria-describedby="submit-button">
+            <button type="submit" class="btn btn-primary" id='submit-button'>Add</button>
+            <button type="submit" class="btn btn-danger" id='clear-button'>Clear</button>
+        </div>
+    <input type="hidden" name="clearButton1" id="clearButton" value="false">
+    </form>
+    <div class='container2'>
+        {% for entry in entries %}
+            <div class='flashcards'>
+                <div class='flashcards-inner'>
+                    <h2 class='flashcards-title'>{{ entry['title'] }}</h2>
+                    <p class='flashcards-body'>{{ entry['body'] }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        let clear;
+        if (window.history.replaceState)
+        {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelector('#clear-button').addEventListener('click', function()
+            {
+                clear = 'true';
+                document.getElementById("clearButton").value = clear;
+            })
+        })
+    </script>
+{% endblock %}
