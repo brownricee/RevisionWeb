@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500&display=swap');
+
+body{
+    background-color: rgb(33, 37, 41);
+    color: white;
+}
+
+.flex-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.timer{
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 120px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.flex-container2{
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    height: 10vh;
+    gap: 2px;
+}
+
+.flex-container3{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 2vh;
+    gap: 10px;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: auto;
+    width: 100%;
+    gap: 5px;
+    flex-wrap: wrap;
+    padding-top: 25px;
+}
+
+.flashcards{
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    border: 1px solid #f1f1f1;
+}
+
+.flashcards-inner{
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 700px;
+    min-width: 370px;
+    text-align: center;
+    word-break: break-word;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flashcards:hover .flashcards-inner {
+    transform: rotateY(180deg);
+}
+
+
+.flashcards-title, .flashcards-body {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flashcards-title{
+    display: flex;
+    word-break: break-word;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    /* em = a unit of measurement which indicates size relative to the size of the font. */
+    font-size: 1.5em;
+    margin-top: 0;
+}
+
+.flashcards-body{
+    color: black;
+    word-break: break-word;
+    font-size: 1.5em;
+    transform: rotateY(180deg);
+}
+
+.container2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    gap: 5px;
+    flex-wrap: wrap;
+    padding-top: 25px;
+}
