@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Pomodoro Timer
+{% endblock %}
+
+
+{% block main %}
+<div class='flex-container'>
+    <div class='timer border border-5 rounded-2' id='pomodoro-timer'>25:00</div>
+    <br>
+    <div class='flex-container3'>
+        <button type="button" class="btn btn-primary btn-lg" id="Start-Button" style="font-family:'Ubuntu', sans-serif;font-weight:400;font-style:normal;">Start Timer</button>
+        <button type="button" class="btn btn-success btn-lg" id="Break-Button" style="font-family:'Ubuntu', sans-serif;font-weight:400;font-style:normal;">Break</button>
+    </div>
+</div>
+
+<script>
+    var timer;
+    var breakTime;
+    var buttonState;
+    let paused = false;
+    var delta;
+    let min;
+    let seconds;
+    document.addEventListener('DOMContentLoaded', function()
+    {
+        document.querySelector('#Break-Button').addEventListener('click', function()
+        {
+            clearInterval(timer);
+            if (document.getElementById('Start-Button').innerHTML = 'Stop Timer')
+            {
+                document.getElementById('Start-Button').click();
+            }
+            document.getElementById('pomodoro-timer').style.color = "rgb(6, 82, 23)";
+            document.getElementById('pomodoro-timer').innerHTML = '5:00';
+            paused = false;
+            min = 0;
+            seconds = 0;
+            var currentDate2 = new Date();
+            currentDate2.setMinutes(currentDate2.getMinutes() + 5);
+            breakTime = setInterval(function()
+            {
+                var breakdelta = currentDate2 - Date.now();
+                document.getElementById('pomodoro-timer').innerHTML = Math.floor((breakdelta / 1000) / 60) + ":" + (Math.floor(breakdelta / 1000) % 60);
+                if (Math.floor(breakdelta / 1000) % 60 < 10)
+                    {
+                        document.getElementById('pomodoro-timer').innerHTML = Math.floor((breakdelta / 1000) / 60) + ":0" + (Math.floor(breakdelta / 1000) % 60);
+                    }
+                if (Math.floor(breakdelta / 1000) % 60 == 0 && Math.floor(breakdelta / 1000) / 60 == 0)
+                {
+                    clearInterval(breakTime);
+                    document.getElementById('Start-Button').click();
+                }
+            }, 100);
+        })
+    })
+    document.addEventListener('DOMContentLoaded', function()
+    {
+        document.querySelector('#Start-Button').addEventListener('click', function()
+        {
+            // Used to keep track of the current state of the button (and change the text within etc)
+            clearInterval(breakTime);
+            buttonState = document.getElementById('Start-Button');
+            // If the button is on and they press it, the button will turn off.
+            if (buttonState.innerHTML == 'Start Timer')
+            {
+                buttonState.innerHTML = 'Stop Timer';
+                document.getElementById('pomodoro-timer').style.color = "rgb(158, 36, 36)";
+                // We are using a date object in Javascript - which essentially just stores a date, as it is
+                // a much more accurate way of making a timer instead of using just setInterval and a normal counter.
+                var currentDate = new Date();
+                if (paused == false)
+                {
+                    // Add 25 minutes to the current date
+                    currentDate.setMinutes(currentDate.getMinutes() + 25);
+                }
+                else
+                {
+                    // If the button has been paused we need to change the timer so it reflects what has already elapsed
+                    currentDate.setMinutes(currentDate.getMinutes() + min);
+                    currentDate.setSeconds(currentDate.getSeconds() + seconds + 1);
+                }
+                timer = setInterval(function() {
+                    var delta = currentDate - Date.now();
+                    min = Math.floor((delta / 1000) / 60);
+                    seconds = Math.floor((delta/ 1000) % 60);
+                    // setInterval is normally in milliseconds - so we need to first divide by 1000
+                    // to get into seconds before then doing it again.
+                    document.getElementById('pomodoro-timer').innerHTML = Math.floor((delta / 1000) / 60) + ":" + (Math.floor(delta / 1000) % 60);
+                    if (Math.floor(delta / 1000) % 60 < 10)
+                    {
+                        document.getElementById('pomodoro-timer').innerHTML = Math.floor((delta / 1000) / 60) + ":0" + (Math.floor(delta / 1000) % 60);
+                    }
+                    if (Math.floor(delta / 1000) % 60 == 0 && Math.floor(delta / 1000) / 60 == 0)
+                    {
+                        document.getElementById('Start-Button').click();
+                        paused = false;
+                        min = 0;
+                        seconds = 0;
+                        return;
+                    }
+                }, 100);
+            }
+            // Likewise if the button is off and they click it; it will then turn on! (wow)
+            else
+            {
+                // Used to pause the setInterval() function in JS.
+                clearInterval(timer);
+                paused = true;
+                buttonState.innerHTML = 'Start Timer';
+                document.getElementById('pomodoro-timer').style.color = 'white';
+            }
+        })
+    })
+</script>
+{% endblock %}
